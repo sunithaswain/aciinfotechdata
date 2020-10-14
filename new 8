@@ -1,0 +1,59 @@
+from django.db import models
+# from phone_field import PhoneField
+# Create your models here.
+class Customers(models.Model):
+    #customer_id=models.AutoField(primary_key=True)
+    name=models.CharField(max_length=250,blank=True)
+    email=models.CharField(max_length=250,blank=True)
+    mobile = models.IntegerField()
+    #password = models.CharField(max_length=250, blank=True)
+    # appointment_time = models.CharField(max_length=250, blank=True)
+    # price = models.DecimalField(max_digits=8, decimal_places=2)
+    # category_id= models.ForeignKey(
+    #     'Categories',
+    #     on_delete=models.CASCADE,
+    # )
+    # #catagroy_id = models.TimeField(auto_now=False, auto_now_add=False)
+    # create_time = models.TimeField(auto_now=False, auto_now_add=False)
+    # state_location = models.CharField(max_length=250, blank=True)
+    # city_location = models.CharField(max_length=250, blank=True)
+    # area_location = models.CharField(max_length=250, blank=True)
+    description = models.CharField(max_length=250, blank=True)
+class Employees(models.Model):
+    employee_id=models.AutoField(primary_key=True)
+    name=models.CharField(max_length=250,blank=True)
+    password=models.CharField(max_length=250,blank=True)
+    email=models.CharField(max_length=250,blank=True)
+    mobile=models.CharField(max_length=12,blank=True)
+    address=models.CharField(max_length=250, blank=True)
+    create_joining_time=models.TimeField(auto_now=False, auto_now_add=False)
+class Categories(models.Model):
+    category_id=models.AutoField(primary_key=True)
+    type_name=models.CharField(max_length=250, blank=True)
+class Payment(models.Model):
+    payment_id=models.AutoField(primary_key=True)
+    appointment_id=models.ForeignKey(
+        'Appointments',
+        on_delete=models.CASCADE,
+    )
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    payment_type=models.CharField(max_length=250, blank=True)
+    create_time=models.TimeField(auto_now=False, auto_now_add=False)
+class Appointments(models.Model):
+    appointment_id=models.AutoField(primary_key=True)
+    category_id=models.ForeignKey(
+        'Categories',
+        on_delete=models.CASCADE,
+    )
+    customer_id=models.ForeignKey(
+        'Customers',
+        on_delete=models.CASCADE,
+    )
+    employee_id=models.ForeignKey(
+        'Employees',
+        on_delete=models.CASCADE,
+    )
+    timeslot=models.TimeField(auto_now=False, auto_now_add=False)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    create_time=models.TimeField(auto_now=False, auto_now_add=False)
+

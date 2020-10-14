@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ACP_RailAvailRQ ResponseType="Native-Availability" xmlns="http://www.acprailinternational.com/API/R2">
+    <POS>
+        <RequestorID>RTG-XML</RequestorID>
+    </POS>
+    <RailAvailInfo Node="Point to Point Tickets">
+        <OriginDestinationSpecifications>
+            <OriginLocation LocationCode="7010720"/>
+            <DestinationLocation LocationCode="7004380"/>
+            <Departure DepartureDate="2018-12-20T08:00:00"/>
+        </OriginDestinationSpecifications>
+        <PassengerSpecifications>
+            <PassengerType Quantity="1" Age="-1"/>
+        </PassengerSpecifications>
+        <FareQualifier/>
+        <ResponsePtPTypes>
+            <ResponsePtPType>TR</ResponsePtPType>
+        </ResponsePtPTypes>
+    </RailAvailInfo>
+</ACP_RailAvailRQ>
+
+
+============================================================ with child ages ---================================
+
+<?xml version="1.0" encoding="UTF-8"?>
+<ACP_RailAvailRQ ResponseType="Native-Availability" xmlns="http://www.acprailinternational.com/API/R2">
+<POS><RequestorID>RTG-XML</RequestorID>
+</POS>
+<RailAvailInfo>
+	<OriginDestinationSpecifications>
+	<OriginLocation LocationCode="7004380" />
+	<DestinationLocation LocationCode="7010720" /><Departure DepartureDate="2020-01-08T7:30" />
+	</OriginDestinationSpecifications>
+
+<PassengerSpecifications>
+	<PassengerType Age="-1" Quantity="1" />
+	<PassengerType Age="7" Quantity="1" />
+	<PassengerType Age="8" Quantity="1" />
+	<PassengerType Age="6" Quantity="1" />
+</PassengerSpecifications>
+<FareQualifier RateCategory="Regular" />
+<ResponsePtPTypes><ResponsePtPType>TR</ResponsePtPType></ResponsePtPTypes>
+</RailAvailInfo></ACP_RailAvailRQ>
+
+
+
+=====================
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<ACP_RailAvailRQ ResponseType="Native-Availability" xmlns="http://www.acprailinternational.com/API/R2">
+<POS><RequestorID>RTG-XML</RequestorID></POS>
+<RailAvailInfo>
+<OriginDestinationSpecifications><OriginLocation LocationCode="7004380" />
+<DestinationLocation LocationCode="7010720" /><Departure DepartureDate="2020-01-16T8:00" />
+</OriginDestinationSpecifications>
+<PassengerSpecifications><PassengerType Age="-1" Quantity="1" /></PassengerSpecifications>
+<FareQualifier RateCategory="Regular" /><ResponsePtPTypes>
+<ResponsePtPType>TW</ResponsePtPType></ResponsePtPTypes></RailAvailInfo></ACP_RailAvailRQ>
+================================================================================================
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ACP_RailAvailRQ ResponseType="Native-Availability" xmlns="http://www.acprailinternational.com/API/R2">
+<POS><RequestorID>RTG-XML</RequestorID></POS>
+<RailAvailInfo Node="Point to Point Tickets">
+<OriginDestinationSpecifications><OriginLocation LocationCode="7004380" />
+<DestinationLocation LocationCode="7010720" />
+<Departure DepartureDate="2020-01-16TO8:00:00" /></OriginDestinationSpecifications>
+<PassengerSpecifications><PassengerType Age="-1" Quantity="1" /></PassengerSpecifications>
+<FareQualifier />
+<ResponsePtPTypes><ResponsePtPType>TR</ResponsePtPType></ResponsePtPTypes></RailAvailInfo></ACP_RailAvailRQ>
+
+-------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<ACP_RailAvailRQ ResponseType="Native-Availability" xmlns="http://www.acprailinternational.com/API/R2"><POS>
+<RequestorID>RTG-XML</RequestorID></POS><RailAvailInfo>
+<OriginDestinationSpecifications><OriginLocation LocationCode="7004380" />
+<DestinationLocation LocationCode="7010720" /><Departure DepartureDate="2020-01-22T8:00" />
+</OriginDestinationSpecifications><PassengerSpecifications><PassengerType Age="-1" Quantity="1" />
+</PassengerSpecifications><FareQualifier RateCategory="Regular" /><ResponsePtPTypes>
+<ResponsePtPType>TW</ResponsePtPType></ResponsePtPTypes></RailAvailInfo></ACP_RailAvailRQ>
+
+
+(u'<?xml version="1.0" encoding="UTF-8"?>
+<ACP_RailAvailRS xmlns="http://www.acprailinternational.com/API/R2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.acprailinternational.com/API/R2 ACP_RailAvailRS.xsd" Version="1.001" TimeStamp="2020-01-01T18:39:07" Target="Production">
+<Errors><Error Type="3" Code="81" ShortText="User Error: message">Unable to evaluate this price formula: ROUNDUP COST * 1.1667 * EURRate 0</Error></Errors></ACP_RailAvailRS>', u'(((((((((((((((((((((((')

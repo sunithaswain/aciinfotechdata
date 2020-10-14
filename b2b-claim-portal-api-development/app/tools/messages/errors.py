@@ -1,0 +1,1 @@
+ERROR_MESSAGE_MISSING_FIELDS = lambda x: {"error":f"Missing fields ({','.join(x['fields'])}) in the request"} 

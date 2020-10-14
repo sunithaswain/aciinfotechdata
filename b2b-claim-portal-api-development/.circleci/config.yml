@@ -1,0 +1,58 @@
+version: 2
+jobs:
+  build:
+    working_directory: /b2b-claim-portal-api
+    branches:
+      only:
+        - development
+    docker:
+      - image: docker:17.10.0-ce-git
+    steps:
+      - checkout # checkout git hub code
+      - setup_remote_docker  # set up the container
+      - run:
+          name: Build docker container
+          command: |
+            docker build --cache-from=b2b-claim-portal-api -t fliptrx/b2b-claim-portal-api .
+            echo "Successfully created build"
+      - run:
+          name: Save Docker image layer cache
+          command: |
+            mkdir -p /caches
+            docker save -o /caches/b2b-claim-portal-api.tar fliptrx/b2b-claim-portal-api
+      - save_cache:
+          key: v1-{{ .Branch }}-{{ epoch }}
+          paths:
+            - /caches/b2b-claim-portal-api.tar
+      - run:
+          name: Test drive our shiny new container
+          command: |
+            docker run -d -p 5010:5010 fliptrx/b2b-claim-portal-api; sleep 20
+      - deploy:
+          name: Deploy
+          command: |
+            SHORT_GIT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)
+            BRANCH=$(echo $CIRCLE_BRANCH | sed 's/\//-/g')
+            TAG=${BRANCH}-${SHORT_GIT_HASH}
+            if [ "${CIRCLE_BRANCH}" == "development" ]; then
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker tag fliptrx/b2b-claim-portal-api fliptrx/b2b-claim-portal-api:${TAG}
+              #docker push fliptrx/b2b-claim-portal-api:${TAG}
+              #docker run -e CATTLE_ACCESS_KEY=${AWS_RCHR_DEV_KEY} -e CATTLE_SECRET_KEY=${AWS_RCHR_DEV_SECRET} -e CATTLE_URL=${AWS_RCHR_URL} -it etlweather/gaucho upgrade ${AWS_RCHR_DEV_CPAPI_SVCID} --imageUuid docker:fliptrx/b2b-claim-portal-api:${TAG} --auto_complete --timeout 300
+            elif [ "${CIRCLE_BRANCH}" == "qa" ]; then
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker tag fliptrx/b2b-claim-portal-api fliptrx/b2b-claim-portal-api:${TAG}
+              docker push fliptrx/b2b-claim-portal-api:${TAG}
+              docker run -e CATTLE_ACCESS_KEY=${AWS_RCHR_QA_KEY} -e CATTLE_SECRET_KEY=${AWS_RCHR_QA_SECRET} -e CATTLE_URL=${AWS_RCHR_URL} -it etlweather/gaucho upgrade ${AWS_RCHR_QA_CPAPI_SVCID} --imageUuid docker:fliptrx/b2b-claim-portal-api:${TAG} --auto_complete --timeout 300
+            elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker tag fliptrx/b2b-claim-portal-api fliptrx/b2b-claim-portal-api:${TAG}
+              docker push fliptrx/b2b-claim-portal-api:${TAG}
+              docker run -e CATTLE_ACCESS_KEY=${AWS_RCHR_STG_KEY} -e CATTLE_SECRET_KEY=${AWS_RCHR_STG_SECRET} -e CATTLE_URL=${AWS_RCHR_URL} -it etlweather/gaucho upgrade ${AWS_RCHR_STG_CPAPI_SVCID} --imageUuid docker:fliptrx/b2b-claim-portal-api:${TAG} --auto_complete --timeout 300
+            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker tag fliptrx/b2b-claim-portal-api fliptrx/b2b-claim-portal-api:${TAG}
+              docker push fliptrx/b2b-claim-portal-api:${TAG}
+            else
+              echo "nothing to do"
+            fi
